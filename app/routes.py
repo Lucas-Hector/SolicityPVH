@@ -4,4 +4,4 @@ Router.get('/', 'home#index')
 
 Router.get('/autenticacao', 'autenticacao#index')
 
-#.all('solicitacao', only='criar')
+Router.all('solicitacao', only='criar')
