@@ -6,4 +6,4 @@ Router.get('/autenticacao', 'autenticacao#index')
 
 Router.get('/transparencia', 'transparencia#dashboard')
 
-# Router.all('solicitacao', only='criar')
+Router.get('/solicitacao/minhas', 'solicitacao#minhas_solicitacoes')
