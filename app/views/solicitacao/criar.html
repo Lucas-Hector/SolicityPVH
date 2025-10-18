@@ -1,0 +1,264 @@
+{% extends 'layouts/layout.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <main class="container">
+        <h1>Criar Solicitações</h1>
+
+        <div class="solicitacao">
+            <form class="form-solicitacao">
+
+                <div class="lado-1">
+                    <div class="linha-campo">
+                        <label>Selecione o tipo de serviço</label>
+                        <div class="categorias">
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-1" name="categoria" value="1">
+                                <label for="categoria-1">Pavimentação asfáltica</label>
+                            </div>
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-2" name="categoria" value="2">
+                                <label for="categoria-2">Recapeamento</label>
+                            </div>
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-3" name="categoria" value="3">
+                                <label for="categoria-3">Tapa Buraco</label>
+                            </div>
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-4" name="categoria" value="4">
+                                <label for="categoria-4">Reposição de Tampa de Bueiro de Metal</label>
+                            </div>
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-5" name="categoria" value="5">
+                                <label for="categoria-5">Reposição de Tampa de Bueiro de Concreto</label>
+                            </div>
+                            <div class="bloco-categorias">
+                                <input type="checkbox" id="categoria-6" name="categoria" value="6">
+                                <label for="categoria-6">Manutenção de Bueiro de Concreto</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="linha-campo">
+                        <label for="txtDescricao">Descrição</label>
+                        <textarea id="txtDescricao" name="descricao" rows="4" cols="50"></textarea>
+                    </div>
+
+                    <div class="linha-campo">
+                        <label>Foto Local</label>
+                        <div class="alinha-container-fotos">
+                            <div class="opcoes-foto">
+                                <div class="opcao-1">
+                                    <label class="btn-fotos upload" for="upfile">Selecionar Foto da galeria</label>
+                                    <input class="foto" type="file" id="upfile" name="foto" accept="image/*">
+                                </div>
+                                <div class="opcao-2">
+                                    <button type="button" class="btn-fotos upload" id="btn-tirar-foto">Tirar Foto</button>
+                                </div>
+                            </div>
+
+                            <div class="preview-container" style="position: relative; display: inline-block; margin-top: 10px;">
+                                <img class="preview" alt="Preview da foto" style="display:none; max-width: 200px; max-height: 150px; border-radius: 8px; object-fit: cover; box-shadow: 0 0 6px rgba(0,0,0,0.1);" />
+                                <button type="button" class="btn-remove-preview" style="display:none; position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; line-height: 20px;">×</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lado-2">
+                    <div class="linha-campo">
+                        <label for="txtCep">Cep</label>
+                        <input id="txtCep" name="cep" type="text" />
+                    </div>
+
+                    <div class="linha-campo">
+                        <label for="txtRua">Rua</label>
+                        <input id="txtRua" name="rua" type="text" />
+                    </div>
+
+                    <div class="linha-campo">
+                        <label for="txtNumero">Número</label>
+                        <input id="txtNumero" name="numero" type="text" />
+                    </div>
+
+                    <div class="linha-campo">
+                        <label for="txtBairro">Bairro</label>
+                        <input id="txtBairro" name="bairro" type="text" />
+                    </div>
+
+                    <div class="linha-campo">
+                        <label for="txtReferencia">Ponto de Referência</label>
+                        <input id="txtReferencia" name="referencia" type="text" />
+                    </div>
+
+                    <div class="linha-campo">
+                        <button type="submit" class="btn-submit">Solicitar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </main>
+</div>
+
+<!-- Modal de confirmação -->
+<div id="confirmModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999;">
+    <div style="background:#fff; padding:20px; border-radius:8px; max-width:400px; text-align:center;">
+        <h3>Usar localização atual?</h3>
+        <p>Deseja que o sistema utilize sua localização para preencher automaticamente o endereço?</p>
+        <div style="margin-top:15px;">
+            <button id="btn-confirmar-local" class="btn-fotos upload">Sim</button>
+            <button id="btn-cancelar-local" class="btn-fotos" style="background:#999;">Não</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal da câmera -->
+<div id="cameraModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:9999;">
+    <div style="position:relative; background:#fff; padding:20px; border-radius:10px; text-align:center; max-width:90%; max-height:90%;">
+        <video id="cameraStream" autoplay playsinline style="width:100%; max-height:70vh; border-radius:10px; background:#000;"></video>
+        <div style="margin-top:10px;">
+            <button id="btn-capturar" class="btn-fotos upload">Tirar</button>
+            <button id="btn-fechar-camera" class="btn-fotos" style="background:#999;">Fechar</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#txtCep').mask('00.000-000');
+
+    // --- Função de busca de CEP ---
+    function buscaCep() {
+        let cep = $('#txtCep').val().replace(/\D/g, '');
+        if (cep !== "") {
+            fetch("https://brasilapi.com.br/api/cep/v1/" + cep)
+                .then(r => {
+                    if (!r.ok) throw new Error("CEP inválido");
+                    return r.json();
+                })
+                .then(endereco => {
+                    $('#txtRua').val(endereco.street || '');
+                    $('#txtBairro').val(endereco.neighborhood || '');
+                })
+                .catch(() => alert("Erro ao buscar o CEP"));
+        }
+    }
+
+    $('#txtCep').on('blur', buscaCep);
+
+    // --- Mostrar modal sempre que o usuário abrir a página ---
+    mostrarModalLocalizacao();
+
+    function mostrarModalLocalizacao() {
+        $('#confirmModal').css('display', 'flex');
+    }
+
+    $('#btn-cancelar-local').click(function() {
+        $('#confirmModal').hide();
+    });
+
+    $('#btn-confirmar-local').click(function() {
+        $('#confirmModal').hide();
+        obterLocalizacao();
+    });
+
+    // --- Geolocalização ---
+    function obterLocalizacao() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback, {
+                enableHighAccuracy: true
+            });
+        } else {
+            alert("Geolocalização não suportada neste navegador.");
+        }
+    }
+
+    function successCallback(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`;
+
+        fetch(url)
+            .then(r => r.json())
+            .then(data => {
+                if (data && data.address) {
+                    const end = data.address;
+                    $('#txtRua').val(end.road || '');
+                    $('#txtBairro').val(end.suburb || end.neighbourhood || '');
+                    $('#txtCep').val(end.postcode || '');
+                    if (end.postcode) buscaCep();
+                } else {
+                    alert("Não foi possível obter o endereço a partir da localização.");
+                }
+            })
+            .catch(err => alert("Erro ao buscar endereço: " + err.message));
+    }
+
+    function errorCallback(error) {
+        alert("Erro ao obter localização: " + error.message);
+    }
+
+    // --- FOTO E CÂMERA ---
+    function showPreview(imgSrc) {
+        $('.preview').attr('src', imgSrc).show();
+        $('.btn-remove-preview').show();
+    }
+
+    $('#upfile').change(function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => showPreview(e.target.result);
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    let stream = null;
+
+    $('#btn-tirar-foto').click(async function() {
+        try {
+            $('#cameraModal').css('display', 'flex');
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: { ideal: "environment" } }, audio: false
+            });
+            $('#cameraStream').get(0).srcObject = stream;
+        } catch (err) {
+            alert('Erro ao acessar a câmera: ' + err.message);
+        }
+    });
+
+    $('#btn-capturar').click(function() {
+        const video = $('#cameraStream').get(0);
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        showPreview(canvas.toDataURL('image/png'));
+        stopCamera();
+        $('#cameraModal').hide();
+    });
+
+    $('#btn-fechar-camera').click(function() {
+        stopCamera();
+        $('#cameraModal').hide();
+    });
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(t => t.stop());
+            stream = null;
+        }
+    }
+
+    $('.btn-remove-preview').click(function() {
+        $('.preview').attr('src', '').hide();
+        $('.btn-remove-preview').hide();
+        $('#upfile').val('');
+    });
+});
+</script>
+{% endblock %}
+
