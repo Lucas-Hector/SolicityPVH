@@ -1,1 +1,3 @@
 # SolicityPVH
+
+#Configurações do flask
