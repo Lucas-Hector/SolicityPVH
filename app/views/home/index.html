@@ -1,4 +1,21 @@
-<!--FALTA COLOCAR O LAYOUT (CSS)-->
+{% extends 'layouts/layout.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleHome.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- Seu HTML da Home aqui -->
+  <div class="box-info">
+    ...
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  // JS específico da Home, se houver
+</script>
+{% endblock %}
 <div class="box-info">
 
     <div class="box-info-single solucionados">
