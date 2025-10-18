@@ -1,0 +1,144 @@
+.content-wrapper {
+    width: 100%;
+    padding: 50px;
+}
+
+.content-wrapper h1, .content-wrapper h2 { 
+    color: #0b3c7b;
+    border-bottom: 3px solid #fcee2b;
+    padding-bottom: 10px;
+    margin-top: 0; 
+}
+
+.formulario-filtros{
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#tabela-solicitacoes{
+    width: 100%;
+}
+
+.table-responsive { 
+    width: 100%; 
+    overflow-x: auto; 
+}
+
+table { 
+    width: 100%;
+    border-collapse: collapse; 
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    text-align: left;
+    white-space: nowrap; 
+}
+
+th { 
+    background-color: #0b3c7b;
+    color: white; 
+}
+
+.actions a {
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background-color: #007bff;
+}
+
+label {
+    display: block;
+    margin-top: 1.5em;
+    font-weight: bold;
+}
+
+.acoes{
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.view{
+    background-color:#2701ce73; 
+}
+
+.view:hover{
+    background-color:#2f00ffbc; 
+}
+
+
+select, textarea, input[type="date"], input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em; box-sizing: border-box; 
+}
+
+input[type="submit"] {
+    background-color: #0b3c7b;
+    color: white;
+    cursor: pointer;
+    margin-top: 2em;
+    font-weight: bold;
+}
+
+a { 
+    color: #0b3c7b;
+}
+
+/* Pílulas de Status com suas cores personalizadas */
+.status-pill { 
+    padding: 5px 12px;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
+}
+
+.status-pendente { background-color: #ca0d00; }
+.status-agendada { background-color: #ffc107; color: #333; }
+.status-em-analise { background-color: #7817b8; }
+.status-em-andamento { background-color: #007bff; }
+.status-concluida { background-color: #28a745; }
+.status-cancelado { background-color: #a8a5a5; }
+
+@media (max-width: 768px) {
+    th, td { 
+        white-space: normal;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header {
+        padding: 10px 15px;
+    }
+
+    .header img {
+        height: 40px;
+    }
+
+    .content-wrapper {
+        width: 100%;
+        padding:40px;
+    }
+}
