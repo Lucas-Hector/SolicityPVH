@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styleShared.css">
+    <link rel="stylesheet" href="/static/css/styleNavbar.css"> 
+
+    <script src="https://kit.fontawesome.com/d881912698.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery/dist/jquery.js') }}"></script> 
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/styleShared.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styleNavBar.css') }}">  -->
+    
+    <title>SolicityPVH</title>
+</head>
+
+<body>
+    <header>
+        <nav class="nav-bar">
+            <div class="logo">
+                <h1>SolicityPVH</h1>
+            </div>
+            <div class="nav-list">
+                <ul>
+                    <li class="nav-item active-link"><a href="#" class="nav-link">Início</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Acompanhar Solicitações</a></li> <!-- Pro administrador essa tela terá uma aparência diferente -->
+                    <li class="nav-item"><a href="#" class="nav-link">Minhas Solicitações</a></li> <!-- Apenas se o user estiver logado -->
+                    <li class="nav-item"><a href="#" class="nav-link">Criar Solicitação</a></li> 
+                </ul>
+            </div>
+
+            <div class="login-button">
+                <button><a href="#">Login</a></button>
+            </div>
+
+            <div class="mobile-menu-icon">
+                <button class="btn-menu"><i class="icon fa-solid fa-bars"></i></button>
+        </nav>
+        <div class="mobile-menu">
+            <ul>
+                <li class="nav-item active-link"><a href="#" class="nav-link">Início</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Acompanhar Solicitações</a></li> <!-- Pro administrador essa tela terá uma aparência diferente -->
+                <li class="nav-item"><a href="#" class="nav-link">Minhas Solicitações</a></li> <!-- Apenas se o user estiver logado -->
+                <li class="nav-item"><a href="#" class="nav-link">Nova Solicitação</a></li> 
+            </ul>
+
+            <div class="login-button">
+                <button><a href="#">Login</a></button>
+            </div>
+        </div>
+    </header>
+
+    
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <footer>
+        <div class="content-footer">
+            © 2025 Copyright: FourSource
+        </div>
+    </footer>
+
+    <script text="type/javascript">
+
+        $(document).ready(function(){
+
+            $('.nav-item').click(function() {
+                $('.nav-item').removeClass('active-link');
+                $(this).addClass('active-link');
+            });
+
+            $('.btn-menu').click(function(){
+
+                let menuMobile = $('.mobile-menu')
+                if (menuMobile.hasClass('open')){
+                    menuMobile.removeClass('open')
+                    $('.icon').removeClass("fa-xmark")
+                    $('.icon').addClass("fa-bars")
+                    //$('.icon').src = "../static/img/menu_white_36dp.svg";
+                } else {
+                    menuMobile.addClass('open')
+                    $('.icon').removeClass("fa-bars")
+                    $('.icon').addClass("fa-xmark")
+                    //$('.icon').src = "../assets/img/close_white_36dp.svg";
+                }
+
+            })
+        })
+    </script>
+
+    {% block scripts %}
+    {% endblock %}
+
+
+</body>
+
+</html>
