@@ -1,0 +1,311 @@
+{% extends 'layouts/layout.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleHome.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- Seu HTML da Home aqui -->
+  <div class="box-info">
+    ...
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+  // JS específico da Home, se houver
+</script>
+{% endblock %}
+<div class="box-info">
+
+    <div class="box-info-single solucionados">
+        <div class="info-text">
+            <h3>Solicitações Atendidas</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-circle-check"></i>
+    </div> <!-- single -->
+
+    <div class="box-info-single em-andamento">
+        <div class="info-text">
+            <h3>Solicitações em Andamento</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-road"></i>
+    </div> <!-- single -->
+
+    <div class="box-info-single pendentes">
+        <div class="info-text">
+            <h3>Solicitações Pendentes</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-circle-exclamation"></i>
+    </div> <!-- single -->
+
+    <div class="box-info-single satisfacao">
+        <div class="info-text">
+            <h3>Satisfação da População</h3>
+            <p>70%</p>
+        </div>
+        <i class="fa-solid fa-face-smile"></i>
+    </div> <!-- single -->
+
+</div> <!-- box-info -->
+    
+<div class="row row-grafico">
+    <div class="grafico-donut">
+      <p class="titulo-graficos">Proporção dos Tipos de Solicitações</p>
+    </div>
+
+    <div class="grafico-bar">
+      <p class="titulo-graficos">Tipos de Solicitações no Ano</p>
+    </div>
+</div>
+
+
+<div class="row grafico-mapa">
+  
+  <div class="mapa-container">
+    
+    <div class="mapa-cidade">
+      <div id="mapa"></div>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+
+    <div class="demais-info">
+      <div class="legenda-grafico">
+        <div class="bloco">
+          <p>0</p>
+          <div class="bloco-cor bloco-1 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>1 - 20</p>
+          <div class="bloco-cor bloco-2 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>21 - 40</p>
+          <div class="bloco-cor bloco-3 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>41 - 60</p>
+          <div class="bloco-cor bloco-4 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>61 - 80</p>
+          <div class="bloco-cor bloco-5 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>81 - 100</p>
+          <div class="bloco-cor bloco-6 "></div>
+        </div> <!-- Fim bloco-->
+
+        <div class="bloco">
+          <p>> 100</p>
+          <div class="bloco-cor bloco-7 "></div>
+        </div> <!-- Fim bloco-->
+                        
+    </div> <!-- legenda grafico -->
+
+    <div class="categoria-solicitacao-bairro">
+      <p class="titulo-graficos">Categoria das Solicitações</p>
+      <div class="grafico-barra-categoria"></div>
+    </div>
+
+  </div> <!-- fim mapa container -->
+                
+</div> <!-- grafico-mapa -->
+
+<div class="line">
+    <div class="grafico-mapa-cidade">
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script text="type/javascript">
+
+    $(document).ready(function(){
+
+        // Grafico de Rosquinha
+        var options = {
+          series: [44, 55, 14],
+           labels: ['Pendentes', 'Em andamento', 'Atendidas'],
+          chart: {
+            type: 'donut',
+            width: 450,
+            height: 450 
+        },
+        colors: ['#FF5370', '#4099FF', '#1ec06f'],
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 300,
+              height: 300 
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector(".grafico-donut"), options);
+        chart.render(); 
+
+
+        // Grafico de Barra Colunas
+        var options = {
+          series: [{
+          name: 'Tapar Buraco',
+          data: [44, 55, 41, 67, 22, 43, 0, 0, 0, 0, 0, 0]
+        }, {
+          name: 'Recolocar Tampas em Bueiros',
+          data: [13, 23, 20, 8, 13, 27, 0, 0, 0, 0, 0, 0]
+        }, {
+          name: 'Recapiar Ruas',
+          data: [11, 17, 15, 15, 21, 14, 0, 0, 0, 0, 0, 0]
+        }, {
+          name: 'Outros',
+          data: [21, 7, 25, 13, 22, 8, 0, 0, 0, 0, 0, 0]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350,
+          stacked: true,
+          toolbar: {
+            show: true
+          },
+          zoom: {
+            enabled: true
+          }
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0
+            }
+          }
+        }],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            borderRadius: 10,
+            borderRadiusApplication: 'end', // 'around', 'end'
+            borderRadiusWhenStacked: 'last', // 'all', 'last'
+            dataLabels: {
+              total: {
+                enabled: true,
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 900
+                }
+              }
+            }
+          },
+        },
+        xaxis: {
+          type: 'category',
+          categories: [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril',
+            'Maio', 'Junho', 'Julho', 'Agosto',
+            'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+          ],
+        },
+        legend: {
+          position: 'right',
+          offsetY: 40
+        },
+        fill: {
+          opacity: 1
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector(".grafico-bar"), options);
+        chart.render();
+
+        // Grafico de Barra do Grafico
+        var options = {
+          series: [{
+            name: 'Solicitações',
+            data: [10, 0, 2, 0, 0, 0]
+          }],
+          chart: {
+            height: 500,
+            type: 'bar',
+          },
+            plotOptions: {
+              bar: {
+                borderRadius: 10,
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: function (val) {
+                return val;
+              },
+              offsetY: -20,
+              style: {
+                fontSize: '12px',
+                colors: ["#304758"]
+              }
+            },
+                
+            xaxis: {
+              categories: ["Tapa Buraco", "Pavimentação", "Repor Tampa de Bueiro", "Frestagem", "Sinalização Viária", "Terraplanagem"],
+              position: 'top',
+              axisBorder: {
+                show: false
+              },
+              axisTicks: {
+                show: false
+              },
+              crosshairs: {
+                fill: {
+                  type: 'gradient',
+                  gradient: {
+                    colorFrom: '#D8E3F0',
+                    colorTo: '#BED1E6',
+                    stops: [0, 100],
+                    opacityFrom: 0.4,
+                    opacityTo: 0.5,
+                  }
+                }
+              },
+              tooltip: {
+                enabled: true,
+              }
+            },
+            yaxis: {
+              axisBorder: {
+                show: false
+              },
+              axisTicks: {
+                show: false,
+              },
+              labels: {
+                show: false,
+                formatter: function (val) {
+                  return val + "%";
+                }
+              }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector(".grafico-barra-categoria"), options);
+        chart.render();
+    })
+</script>
+{% endblock %}

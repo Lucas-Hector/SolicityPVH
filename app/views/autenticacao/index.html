@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styleShared.css">
+    <title>Formulário</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            
+            <div class="side-panel image-side">
+                <img src="static/img/Porto_velho.png" alt="Logo - Cidade de Porto Velho">
+            </div>
+
+            <div class="side-panel form-side">
+                
+                <div class="toggle-btns">
+                    <button id="btn-cadastro" type="button">Cadastro</button>
+                    <button id="btn-login" class="active" type="button">Login</button>
+                </div>
+
+                <div class="form-wrapper">
+
+                    <form id="form-cadastro" method="POST" action="{{ url_for('register') }}" class="hidden">
+                        <div class="form-header">
+                            <div class="title">
+                                <h1>Cadastre-se</h1>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-box">
+                                <label for="firstname">Nome</label>
+                                <input id="firstname" type="text" name="firstname" placeholder="Digite nome completo" required>
+                            </div>
+                            <div class="input-box">
+                                <label for="email">E-mail</label>
+                                <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
+                            </div>
+                            <div class="input-box">
+                                <label for="number">Celular</label>
+                                <input id="number" type="tel" name="number" placeholder="(xx) xxxx-xxxx" required>
+                            </div>
+                            <div class="input-box">
+                                <label for="cpf">CPF</label>
+                                <input id="cpf"  type="tel" name="cpf" placeholder="xxx.xxx.xxx-xx" required>
+                            </div>
+
+                            <div class="input-box">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" name="password" placeholder="Digite sua senha" required>
+                            </div>
+                            <div class="input-box">
+                                <label for="confirmPassword">Confirme sua Senha</label>
+                                <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirme sua senha" required>
+                            </div>
+                        </div>
+
+                        <div class="gender-inputs">
+                            <div class="gender-title">
+                                <h6>Gênero</h6>
+                            </div>
+                            <div class="gender-group">
+                                <div class="gender-input">
+                                    <input id="female" type="radio" name="gender" value="feminino">
+                                    <label for="female">Feminino</label>
+                                </div>
+                                <div class="gender-input">
+                                    <input id="male" type="radio" name="gender" value="masculino">
+                                    <label for="male">Masculino</label>
+                                </div>
+                                                                <div class="gender-input">
+                                    <input id="other" type="radio" name="gender" value="outros">
+                                    <label for="other">Outros</label>
+                                </div>
+                                    <div class="gender-input">
+                                    <input id="none" type="radio" name="gender" value="nao_informar">
+                                    <label for="none">Prefiro não dizer</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="continue-button">
+                            <button type="submit">Continuar</button>
+                        </div>
+                    </form>
+
+                    <form id="form-login" method="POST" action="{{ url_for('login') }}">
+                        <div class="form-header">
+                            <div class="title">
+                                <h1>Login</h1>
+                            </div>
+                        </div>
+                        <div class="input-login">
+                            <div class="input-box">
+                                <label for="login-email">Email</label>
+                                <input id="login-email" type="email" name="login-email" placeholder="Digite seu email" required>
+                            </div>
+                            <div class="input-box">
+                                <label for="login-password">Senha</label>
+                                <input id="login-password" name="password" type="password" placeholder="Digite a sua senha" required>
+                            </div>
+                            <div class="continue-button">
+                                <button type="submit">Entrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div> </div> </div> </div> <script>
+        const btnCadastro = document.getElementById('btn-cadastro');
+        const btnLogin = document.getElementById('btn-login');
+        const formCadastro = document.getElementById('form-cadastro');
+        const formLogin = document.getElementById('form-login');
+        const contentWrapper = document.querySelector('.content-wrapper');
+
+        btnCadastro.addEventListener('click', () => {
+            btnCadastro.classList.add('active');
+            btnLogin.classList.remove('active');
+            formCadastro.classList.remove('hidden');
+            formLogin.classList.add('hidden');
+            contentWrapper.classList.add('shifted'); 
+        });
+
+        btnLogin.addEventListener('click', () => {
+            btnLogin.classList.add('active');
+            btnCadastro.classList.remove('active');
+            formLogin.classList.remove('hidden');
+            formCadastro.classList.add('hidden');
+            contentWrapper.classList.remove('shifted');
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#number').mask('(00) 00000-0000');
+        });
+    </script>
+</body>
+</html>
