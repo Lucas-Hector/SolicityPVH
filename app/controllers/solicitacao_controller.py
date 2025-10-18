@@ -5,7 +5,7 @@ from datetime import datetime
 class SolicitacaoController:
     def criar(self):
         return render_template('solicitacao/criar.html')
-
+    
     def minhas_solicitacoes(self):
         solicitacoes_db = [
             { 

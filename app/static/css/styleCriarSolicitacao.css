@@ -1,0 +1,202 @@
+.form-solicitacao {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lado-1, .lado-2 {
+    flex: 1 1 450px;
+    min-width: 300px;
+}
+
+.linha-campo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.linha-campo label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    cursor: pointer;
+    color: #000;
+}
+
+.linha-campo input,
+.linha-campo textarea {
+    padding: 12px 16px;
+    border: 1px solid #b9b9b9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #000;
+    transition: border-color 0.3s ease;
+}
+
+.linha-campo input:focus,
+.linha-campo textarea:focus {
+    border-color: #064286;
+    outline: none;
+}
+
+.linha-campo textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Categorias - container geral */
+.categorias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Cada bloco da categoria */
+.bloco-categorias {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #b9b9b9;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #fff;
+    user-select: none;
+}
+
+.bloco-categorias:hover {
+    background-color: #e0e7ff;
+}
+
+/* Checkbox */
+.bloco-categorias input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #064286;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Texto do label */
+.bloco-categorias label {
+    cursor: pointer;
+    flex: 1;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #000;
+    margin: 0;
+}
+
+/* Imagem categoria (placeholder) */
+.img-categoria {
+    width: 80px;
+    height: 60px;
+    background-color: #064286;
+    border-radius: 6px;
+}
+
+/* Fotos */
+.alinha-container-fotos {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.opcoes-foto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    flex: 1;
+}
+
+.opcao-1, .opcao-2 {
+    position: relative;
+}
+
+.btn-fotos {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    color: #064286;
+    border: 2px dashed #064286;
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.btn-fotos:hover {
+    background-color: #d6e1ff;
+}
+
+#upfile {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Preview da foto */
+.preview {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+/* Botão enviar */
+.btn-submit {
+    width: 100%;
+    padding: 14px;
+    background-color: #064286;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    transition: 0.2s;
+    background-color: #245fac;
+}
+
+/* Responsividade */
+@media screen and (max-width: 790px) {
+    .form-solicitacao {
+        flex-direction: column;
+    }
+    
+    .lado-1, .lado-2 {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .categorias {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .img-categoria {
+        display: none;
+    }
+
+    .preview {
+        max-width: 100%;
+        height: auto;
+        margin-left: 0;
+    }
+}
