@@ -1,0 +1,33 @@
+{% extends 'layouts/layout.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+<main class="container">
+    <h1>Bem-vindo ao Solicity</h1>
+    <p class="phome">Seu portal para solicitar com uma nova Porto Velho</p>
+
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="card">
+            <h2>Transparência de Solicitações</h2>
+            <p class="phome">Consulte todas as solicitações realizadas e acompanhe o status em tempo real.</p>
+            <a href="/solicitacoes/acompanhar" class="btn-card">Acessar</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <h2>Criar Solicitação</h2>
+            <p class="phome">Registre uma nova solicitação de forma rápida e simples.</p>
+            <a href="/solicitacoes/criar" class="btn-card">Registrar</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <h2>Feedbacks</h2>
+            <p class="phome">Envie suas sugestões, reclamações ou elogios e ajude a melhorar os serviços.</p>
+            <a href="/feedbacks" class="btn-card">Enviar</a>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock %}

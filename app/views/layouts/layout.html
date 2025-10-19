@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/styleShared.css">
+    <link rel="stylesheet" href="/static/css/styleHome.css">
     <link rel="stylesheet" href="/static/css/styleNavbar.css"> 
     <link rel="stylesheet" href="/static/css/styleMinhasSolicitacoes.css"> 
     <link rel="stylesheet" href="/static/css/styleCriarSolicitacao.css"> 
     <link rel="stylesheet" href="/static/css/styleTransparencia.css"> 
+    
 
     <script src="https://kit.fontawesome.com/d881912698.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery/dist/jquery.js') }}"></script> 
@@ -19,21 +21,21 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     
-    <title>SolicityPVH</title>
+    <title>Solicity</title>
 </head>
 
 <body>
     <header>
         <nav class="nav-bar">
             <div class="logo">
-                <h1>SolicityPVH</h1>
+                <h1 class="nomeSis">Solicity</h1>
             </div>
             <div class="nav-list">
                 <ul>
-                    <li class="nav-item active-link"><a href="#" class="nav-link">Início</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Acompanhar Solicitações</a></li> <!-- Pro administrador essa tela terá uma aparência diferente -->
-                    <li class="nav-item"><a href="#" class="nav-link">Minhas Solicitações</a></li> <!-- Apenas se o user estiver logado -->
-                    <li class="nav-item"><a href="#" class="nav-link">Criar Solicitação</a></li> 
+                    <li class="nav-item"><a href="/" class="nav-link">Início</a></li>
+                    <li class="nav-item"><a href="/solicitacao/minhas" class="nav-link">Acompanhar Solicitações</a></li>
+                    <li class="nav-item"><a href="/solicitacao/criar" class="nav-link">Criar Solicitação</a></li>
+                    <li class="nav-item"><a href="/transparencia" class="nav-link">Transparência</a></li>
                 </ul>
             </div>
 
@@ -46,14 +48,14 @@
         </nav>
         <div class="mobile-menu">
             <ul>
-                <li class="nav-item active-link"><a href="#" class="nav-link">Início</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Acompanhar Solicitações</a></li> <!-- Pro administrador essa tela terá uma aparência diferente -->
-                <li class="nav-item"><a href="#" class="nav-link">Minhas Solicitações</a></li> <!-- Apenas se o user estiver logado -->
-                <li class="nav-item"><a href="#" class="nav-link">Nova Solicitação</a></li> 
+                <li class="nav-item"><a href="/" class="nav-link">Início</a></li>
+                <li class="nav-item"><a href="/solicitacao/minhas" class="nav-link">Acompanhar Solicitações</a></li>
+                <li class="nav-item"><a href="/solicitacao/criar" class="nav-link">Criar Solicitação</a></li>
+                <li class="nav-item"><a href="/transparencia" class="nav-link">Transparência</a></li>
             </ul>
 
             <div class="login-button">
-                <button><a href="#">Login</a></button>
+                <button><a href="/autenticacao.index">Login</a></button>
             </div>
         </div>
     </header>
@@ -77,6 +79,10 @@
             $('.nav-item').click(function() {
                 $('.nav-item').removeClass('active-link');
                 $(this).addClass('active-link');
+            });
+
+            $('.nomeSis').click(function() {
+                window.location.href = '/'; 
             });
 
             $('.btn-menu').click(function(){
