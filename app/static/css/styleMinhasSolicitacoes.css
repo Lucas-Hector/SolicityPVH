@@ -1,30 +1,69 @@
+/* === CONTAINER PRINCIPAL === */
 .content-wrapper {
     width: 100%;
-    padding: 50px;
+    padding: 50px; 
 }
 
-.content-wrapper h1, .content-wrapper h2 { 
+.titulo-pagina {
     color: #0b3c7b;
     border-bottom: 3px solid #fcee2b;
     padding-bottom: 10px;
     margin-top: 0; 
 }
 
-.formulario-filtros{
+/* === FILTROS E PESQUISA === */
+.formulario-filtros {
     margin-bottom: 20px;
     display: flex;
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
+    padding-top: 40px;
 }
 
-#tabela-solicitacoes{
+.select-filtro {
+    width: auto !important; 
+    min-width: 150px;
+    padding: 8px;
+    height: 40px;
+}
+
+/* 🔹 Barra de pesquisa do DataTable */
+.dataTables_filter {
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.dataTables_filter label {
+    font-weight: bold;
+    color: #0b3c7b;
+    font-size: 15px;
+}
+
+.dataTables_filter input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-left: 10px;
+    width: 250px; /* “tamanho 10” equivalente */
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.dataTables_filter input:focus {
+    border-color: #0b3c7b;
+    outline: none;
+    box-shadow: 0 0 5px rgba(11, 60, 123, 0.3);
+}
+
+/* === TABELA === */
+#tabela-solicitacoes {
     width: 100%;
 }
 
 .table-responsive { 
     width: 100%; 
-    overflow-x: auto; 
+    overflow-x: auto;
 }
 
 table { 
@@ -37,7 +76,7 @@ th, td {
     padding: 12px 15px;
     border: 1px solid #dddddd;
     text-align: left;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 th { 
@@ -45,48 +84,50 @@ th {
     color: white; 
 }
 
+/* === AÇÕES (EXIBIR / EDITAR) === */
+.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .actions a {
-    padding: 8px 12px;
-    text-decoration: none;
-    border-radius: 5px;
+    padding: 8px 14px;
+    border-radius: 6px;
     color: white !important;
-    border: none;
-    cursor: pointer;
     font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    min-width: 90px;
+    text-align: center;
+    transition: 0.2s;
 }
 
-.btn-edit {
-    background-color: #007bff;
+/* Botão “Exibir” */
+.view {
+    background-color: #2701ce73; 
+}
+.view:hover {
+    background-color: #2f00ffbc; 
 }
 
-label {
-    display: block;
-    margin-top: 1.5em;
-    font-weight: bold;
+/* Botão “Editar” */
+.edit {
+    background-color: #0b3c7b;
+}
+.edit:hover {
+    background-color: #07275a;
 }
 
-.acoes{
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    margin: 5px;
-}
-
-.view{
-    background-color:#2701ce73; 
-}
-
-.view:hover{
-    background-color:#2f00ffbc; 
-}
-
-
+/* === INPUTS GERAIS === */
 select, textarea, input[type="date"], input[type="submit"] {
     width: 100%;
     padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 1em; box-sizing: border-box; 
+    font-size: 1em; 
+    box-sizing: border-box; 
 }
 
 input[type="submit"] {
@@ -101,7 +142,7 @@ a {
     color: #0b3c7b;
 }
 
-/* Pílulas de Status com suas cores personalizadas */
+/* === STATUS PILLs === */
 .status-pill { 
     padding: 5px 12px;
     border-radius: 15px;
@@ -119,26 +160,118 @@ a {
 .status-concluida { background-color: #28a745; }
 .status-cancelado { background-color: #a8a5a5; }
 
+.gravidade-baixa { background-color: #28a745; }
+.gravidade-media { background-color: #ffc107; color: #333; }
+.gravidade-alta { background-color: #dc3545; }
+
+/* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
     th, td { 
         white-space: normal;
     }
 
-    .footer-content {
+    .formulario-filtros {
         flex-direction: column;
-        text-align: center;
+        align-items: flex-start;
     }
 
-    .header {
-        padding: 10px 15px;
+    .select-filtro {
+        width: 100% !important;
     }
-
-    .header img {
-        height: 40px;
-    }
-
+    
     .content-wrapper {
-        width: 100%;
-        padding:40px;
+        padding: 20px;
     }
+
+    .endereco-complemento {
+        display: none; 
+    }
+
+    .actions a {
+        min-width: 70px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* === MODAL === */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px 25px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2),
+                0 6px 20px rgba(0,0,0,0.19);
+    padding-top: 45px; /* espaço pro botão de fechar */
+}
+
+/* 🔴 Botão de Fechar Moderno */
+.close-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.close-btn:hover {
+    background-color: #bb2d3b;
+    transform: scale(1.1);
+}
+
+.modal-body {
+    display: flex;
+    gap: 20px;
+    padding-top: 15px;
+}
+
+.detalhes-texto {
+    flex: 1;
+}
+
+.detalhes-foto {
+    flex: 1;
+    text-align: center;
+}
+
+.modal-footer {
+    text-align: right;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    margin-top: 15px;
+}
+
+/* Pílulas dentro do modal */
+#detalhesModal .status-pill {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: inline-block;
 }

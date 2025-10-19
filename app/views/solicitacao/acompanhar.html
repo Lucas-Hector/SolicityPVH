@@ -1,0 +1,207 @@
+{% extends 'layouts/layout.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <main class="container">
+        <h1 class="titulo-pagina">Minhas Solicitações</h1>
+
+        <!-- 🔹 Filtro por status -->
+        <form class="formulario-filtros" method="GET" action="/" style="margin-bottom: 20px;">
+            <label for="status_filter" style="font-weight: 600; margin-right: 10px;">Filtrar por Status:</label>
+            <select name="status" id="status_filter" onchange="this.form.submit()" class="select-filtro">
+                <option value="" {% if not filtro_ativo %}selected{% endif %}>Todos</option>
+                <option value="Pendente" {% if filtro_ativo == 'Pendente' %}selected{% endif %}>Pendente</option>
+                <option value="Em Análise" {% if filtro_ativo == 'Em Análise' %}selected{% endif %}>Em Análise</option>
+                <option value="Agendada" {% if filtro_ativo == 'Agendada' %}selected{% endif %}>Agendada</option>
+                <option value="Em Andamento" {% if filtro_ativo == 'Em Andamento' %}selected{% endif %}>Em Andamento</option>
+                <option value="Concluída" {% if filtro_ativo == 'Concluída' %}selected{% endif %}>Concluída</option>
+                <option value="Cancelado" {% if filtro_ativo == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+            </select>
+        </form>
+
+        <div class="table-responsive">
+            <table id="tabela-solicitacoes" class="display tabela-solicitacoes"> 
+                <thead>
+                    <tr>
+                        <th>Protocolo</th>
+                        <th>Categoria</th>
+                        <th>Rua</th>
+                        <th>Bairro</th>
+                        <th>Gravidade</th>
+                        <th>Status</th>
+                        <th>Data Agendada</th>
+                        <th>Data de Conclusão</th> <!-- 🆕 -->
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in solicitacoes %}
+                    <tr>
+                        <td>#{{ s.id }}</td>
+                        <td>{{ s.categoria }}</td>
+                        <td>{{ s.rua }}<span class="endereco-complemento">, {{ s.numero }}</span></td>
+                        <td>{{ s.bairro }}</td>
+                        <td>
+                            {% if s.gravidade == 'Baixa' %}
+                                <span class="status-pill gravidade-baixa">Baixa</span>
+                            {% elif s.gravidade == 'Média' %}
+                                <span class="status-pill gravidade-media">Média</span>
+                            {% elif s.gravidade == 'Alta' %}
+                                <span class="status-pill gravidade-alta">Alta</span>
+                            {% else %}
+                                {{ s.gravidade }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if s.status == 'Pendente' %}
+                                <span class="status-pill status-pendente">Pendente</span>
+                            {% elif s.status == 'Em Análise' %}
+                                <span class="status-pill status-em-analise">Em Análise</span>
+                            {% elif s.status == 'Agendada' %}
+                                <span class="status-pill status-agendada">Agendada</span>
+                            {% elif s.status == 'Em Andamento' %}
+                                <span class="status-pill status-em-andamento">Em Andamento</span>
+                            {% elif s.status == 'Concluída' %}
+                                <span class="status-pill status-concluida">Concluída</span>
+                            {% elif s.status == 'Cancelado' %}
+                                <span class="status-pill status-cancelado">Cancelado</span>
+                            {% else %}
+                                {{ s.status }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if s.data_agendamento %}
+                                {{ s.data_agendamento.strftime('%d/%m/%Y') }}
+                            {% else %}
+                                Não agendada
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if s.data_finalizacao %}
+                                {{ s.data_finalizacao.strftime('%d/%m/%Y') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a class="acoes view" 
+                               title="Ver detalhes" 
+                               href="#"
+                               data-id="#{{ s.id }}"
+                               data-categoria="{{ s.categoria }}"
+                               data-rua="{{ s.rua }}"
+                               data-numero="{{ s.numero }}"
+                               data-bairro="{{ s.bairro }}"
+                               data-gravidade="{{ s.gravidade }}"
+                               data-status="{{ s.status }}"
+                               data-data-agendada="{% if s.data_agendamento %}{{ s.data_agendamento.strftime('%d/%m/%Y') }}{% else %}Não agendada{% endif %}"
+                               data-data-finalizacao="{% if s.data_finalizacao %}{{ s.data_finalizacao.strftime('%d/%m/%Y') }}{% else %}-{% endif %}"
+                               data-descricao="{{ s.descricao if s.descricao else 'Sem descrição disponível.' }}"
+                               data-avaliacao="{{ s.avaliacao if s.avaliacao else '' }}"
+                               data-feedback="{{ s.feedback if s.feedback else '' }}"
+                               data-foto-url="{{ url_for('static', filename='img/boca_lobo.jpeg') }}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9" style="text-align: center;">Nenhuma solicitação encontrada com o status "{{ filtro_ativo }}".</td> 
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- 🔹 Modal Detalhes -->
+    <div id="detalhesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Detalhes da Solicitação <span id="modal-protocolo"></span></h2>
+            <div class="modal-body">
+                <div class="detalhes-texto">
+                    <p><strong>Categoria:</strong> <span id="modal-categoria"></span></p>
+                    <p><strong>Endereço:</strong> <span id="modal-endereco"></span></p>
+                    <p><strong>Bairro:</strong> <span id="modal-bairro"></span></p>
+                    <p><strong>Gravidade:</strong> <span id="modal-gravidade"></span></p>
+                    <p><strong>Status:</strong> <span id="modal-status"></span></p>
+                    <p><strong>Data Agendada:</strong> <span id="modal-data-agendada"></span></p>
+
+                    <!-- 🆕 Campos que só aparecem se estiver Concluída -->
+                    <div id="conclusao-section" style="display: none;">
+                        <p><strong>Data de Conclusão:</strong> <span id="modal-data-finalizacao"></span></p>
+                        <p><strong>Avaliação:</strong> <span id="modal-avaliacao"></span></p>
+                        <p><strong>Feedback:</strong> <span id="modal-feedback"></span></p>
+                    </div>
+
+                    <p><strong>Descrição:</strong> <span id="modal-descricao">Descrição da solicitação aqui...</span></p>
+                </div>
+                <div class="detalhes-foto">
+                    <h3>Foto da Solicitação</h3>
+                    <img id="modal-foto" src="{{ url_for('static', filename='img/boca_lobo.jpeg') }}" alt="Foto da Solicitação" style="max-width: 100%; height: auto; border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- ✅ Dependências corretas -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    // ✅ Inicializa o DataTable
+    $('#tabela-solicitacoes').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' },
+        pageLength: 10,
+        order: [[0, 'desc']],
+        searching: true,
+        paging: true,
+        info: true
+    });
+
+    // ✅ Lógica do Modal
+    var modal = $('#detalhesModal');
+    var closeBtn = $('.close-btn');
+
+    $('#tabela-solicitacoes tbody').on('click', '.view', function(e) {
+        e.preventDefault(); 
+        var link = $(this);
+
+        // Preenche campos básicos
+        $('#modal-protocolo').text(link.data('id'));
+        $('#modal-categoria').text(link.data('categoria'));
+        $('#modal-endereco').text(link.data('rua') + (link.data('numero') ? ', ' + link.data('numero') : ''));
+        $('#modal-bairro').text(link.data('bairro'));
+        $('#modal-gravidade').text(link.data('gravidade'));
+        $('#modal-status').text(link.data('status'));
+        $('#modal-data-agendada').text(link.data('data-agendada'));
+        $('#modal-descricao').text(link.data('descricao'));
+        $('#modal-foto').attr('src', link.data('foto-url'));
+
+        // Exibe ou oculta a seção de conclusão
+        if (link.data('status') === 'Concluída') {
+            $('#conclusao-section').show();
+            $('#modal-data-finalizacao').text(link.data('data-finalizacao'));
+            $('#modal-avaliacao').text(link.data('avaliacao') || 'Não avaliada');
+            $('#modal-feedback').text(link.data('feedback') || 'Sem feedback');
+        } else {
+            $('#conclusao-section').hide();
+        }
+
+        modal.css('display', 'block');
+    });
+
+    closeBtn.on('click', function() { modal.css('display', 'none'); });
+    $(window).on('click', function(e) {
+        if (e.target == modal[0]) modal.css('display', 'none');
+    });
+});
+</script>
+{% endblock %}
