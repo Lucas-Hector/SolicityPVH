@@ -224,7 +224,8 @@ body {
     transition: background-color 0.2s;
 }
 .continue-button button:hover {
-    background-color: #082f63;
+    transition: 0.2s;
+    background-color: #245fac;
 }
 
 /* --- RESPONSIVIDADE (Sem alteração) --- */
