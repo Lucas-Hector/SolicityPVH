@@ -30,11 +30,11 @@
                             </div>
                             <div class="bloco-categorias">
                                 <input type="checkbox" id="categoria-5" name="categoria" value="5">
-                                <label for="categoria-5">Reposição de Tampa de Bueiro de Concreto</label>
+                                <label for="categoria-5">Reposição de Boca de Lobo</label>
                             </div>
                             <div class="bloco-categorias">
                                 <input type="checkbox" id="categoria-6" name="categoria" value="6">
-                                <label for="categoria-6">Manutenção de Bueiro de Concreto</label>
+                                <label for="categoria-6">Manutenção de Boca de Lobo</label>
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="linha-campo">
-                        <button type="submit" class="btn-submit">Solicitar</button>
+                        <button type="submit" class="btn-submit">Criar</button>
                     </div>
                 </div>
 
@@ -128,6 +128,12 @@
 {% block scripts %}
 <script type="text/javascript">
 $(document).ready(function() {
+
+    $('.form-solicitacao').on('submit', function(event) {
+        event.preventDefault(); 
+        window.location.href = "/solicitacao/acompanhar"; 
+    });
+
     $('#txtCep').mask('00.000-000');
 
     // --- Função de busca de CEP ---
