@@ -72,12 +72,48 @@ Siga os passos abaixo para rodar o projeto em sua máquina:
 
 ### 🚀 Passo a passo
 
-1. **Clone o repositório**  
-   Abra o terminal e execute:
+1. **Crie e abra uma pasta**
+    * Abra o VS Code.
+    * Clique em **Arquivo** (File) > **Abrir Pasta** (Open Folder) e selecione a pasta que você criou.
+    * No VS Code, abra o terminal integrado: **Terminal** > **Novo Terminal** (ou use o atalho `Ctrl+'` ou `Cmd+'`).
 
-   ```bash
-   git clone https://github.com/seu-usuario/Solicity.git
-   cd Solicity
+2. **Clone o repositório**
+    No terminal do VS Code, execute os seguintes comandos:
 
-git clone https://github.com/seu-usuario/Solicity.git
-cd Solicity
+    ```bash
+    git clone https://github.com/IsabellaT29/SolicityPVH.git
+    cd SolicityPVH
+    ```
+    
+3. **Instale as dependências**
+    Execute no terminal:
+
+    ```bash
+    pip install flask flask_mvc
+    ```
+
+4. **Execute a aplicação**
+    Ainda no terminal, dentro da pasta do projeto, rode:
+
+    ```bash
+    python run.py
+    ```
+
+5. **Abra no navegador**
+    Acesse a URL:
+
+    👉 [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+---
+
+### 📝 Notas Finais
+
+Esta versão é uma **protótipo** sem banco de dados e autenticação de usuários, apenas com uma amostra das principais funcionalidades e telas.
+
+### 👩‍💻 Desenvolvedoras
+
+* Isabella Tereza
+* Kemily Freitas
+* Letícia Vitória
+* Samia Dorado
+
