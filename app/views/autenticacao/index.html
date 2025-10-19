@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/styleShared.css">
-    <title>Formulário</title>
+    <link rel="stylesheet" href="/static/css/styleAutenticacao.css">
+    <title>Solicity</title>
 </head>
 
 <body>
@@ -13,7 +14,7 @@
         <div class="content-wrapper">
             
             <div class="side-panel image-side">
-                <img src="static/img/Porto_velho.png" alt="Logo - Cidade de Porto Velho">
+                <!-- <img src="static/img/Porto_velho.png" alt="Logo - Cidade de Porto Velho"> -->
             </div>
 
             <div class="side-panel form-side">
@@ -25,7 +26,7 @@
 
                 <div class="form-wrapper">
 
-                    <form id="form-cadastro" method="POST" action="{{ url_for('register') }}" class="hidden">
+                    <form id="form-cadastro" method="POST" action="" class="hidden">
                         <div class="form-header">
                             <div class="title">
                                 <h1>Cadastre-se</h1>
@@ -60,36 +61,12 @@
                             </div>
                         </div>
 
-                        <div class="gender-inputs">
-                            <div class="gender-title">
-                                <h6>Gênero</h6>
-                            </div>
-                            <div class="gender-group">
-                                <div class="gender-input">
-                                    <input id="female" type="radio" name="gender" value="feminino">
-                                    <label for="female">Feminino</label>
-                                </div>
-                                <div class="gender-input">
-                                    <input id="male" type="radio" name="gender" value="masculino">
-                                    <label for="male">Masculino</label>
-                                </div>
-                                                                <div class="gender-input">
-                                    <input id="other" type="radio" name="gender" value="outros">
-                                    <label for="other">Outros</label>
-                                </div>
-                                    <div class="gender-input">
-                                    <input id="none" type="radio" name="gender" value="nao_informar">
-                                    <label for="none">Prefiro não dizer</label>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="continue-button">
                             <button type="submit">Continuar</button>
                         </div>
                     </form>
 
-                    <form id="form-login" method="POST" action="{{ url_for('login') }}">
+                    <form id="form-login" method="POST" action="">
                         <div class="form-header">
                             <div class="title">
                                 <h1>Login</h1>
