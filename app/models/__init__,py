@@ -1,0 +1,11 @@
+from flask_sqlalchemy import SQLAlchemy
+
+# Cria o objeto principal do banco
+db = SQLAlchemy()
+
+# Aqui você pode importar seus models individuais (cada tabela em um .py)
+from .usuario import Usuario
+from .grupo import Grupo
+from .categoria_servico import CategoriaServico
+from .localizacao import Localizacao
+from .solicitacao import Solicitacao

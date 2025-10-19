@@ -4,13 +4,13 @@
 <div class="content-wrapper">
   <main class="container">
       <h1>Bem-vindo ao Solicity</h1>
-      <p class="phome">Seu portal para solicitar com uma nova Porto Velho</p>
+      <p class="phome">Seu portal para solicitar uma nova Porto Velho</p>
 
       <div class="cards-container">
           <!-- Card 1 -->
           <div class="card">
-              <h2>Transparência de Solicitações</h2>
-              <p class="phome">Consulte todas as solicitações realizadas e acompanhe o status em tempo real.</p>
+              <h2>Acompanhe suas Solicitações</h2>
+              <p class="phome">Consulte todas as suas solicitações realizadas e acompanhe o status em tempo real.</p>
               <a href="/solicitacao/acompanhar" class="btn-card">Acessar</a>
           </div>
 
@@ -23,37 +23,18 @@
 
           <!-- Card 3 -->
           <div class="card">
-              <h2>Feedbacks</h2>
-              <p class="phome">Envie suas sugestões, reclamações ou elogios e ajude a melhorar os serviços.</p>
-              <a href="/feedbacks" class="btn-card">Enviar</a>
+              <h2>Transparência</h2>
+              <p class="phome">Dashboard com gráficos interativos e dinâmicos com as solicitações da cidade.</p>
+              <a href="/transparencia" class="btn-card">Ver</a>
           </div>
       </div>
   </div>
   </main>
 
-  <div id="ze-chatbot-container">
-        <div id="ze-chatbot-header">
-            <img id="ze-avatar" src="static/img/ze_avatar.png" alt="Zé da Obra">
-            <div id="ze-info">
-                <p class="ze-saudacao">Olá! Eu sou o Zé da Obra!</p>
-                <p class="ze-status" data-status="initial">Clique para começar o chat.</p>
-            </div>
-            <button id="close-chat-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        
-        <div id="ze-chat-window" style="display: none;">
-            <div id="ze-chat-messages">
-                </div>
-            
-            <div id="ze-chat-input-area">
-                <input type="text" id="ze-user-input" placeholder="Digite seu CPF...">
-                <button id="ze-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
+  
 {% endblock %}
 
-{% block scripts %}
+<!-- {% block scripts %}
     <script text="type/javascript">
         // =======================================================
         //              JAVASCRIPT (Menu e Chatbot IA)
@@ -309,4 +290,4 @@
             // --- FIM EVENTOS DO ZÉ DA OBRA ---
         })
     </script>
-    {% endblock %}
+{% endblock %} -->

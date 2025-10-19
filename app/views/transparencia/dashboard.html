@@ -5,7 +5,7 @@
     <div class="box-info-single solucionados">
         <div class="info-text">
             <h3>Solicitações Atendidas</h3>
-            <p>150</p>
+            <p>2.000</p>
         </div>
         <i class="fa-solid fa-circle-check"></i>
     </div>
@@ -15,29 +15,29 @@
             <h3>Solicitações em Andamento</h3>
             <p>150</p>
         </div>
-        <i class="fa-solid fa-road"></i>
+        <i class="fa-solid fa-hourglass-half"></i>
     </div>
 
-    <div class="box-info-single pendentes">
+    <div class="box-info-single agendadas">
         <div class="info-text">
-            <h3>Solicitações Pendentes</h3>
-            <p>150</p>
+            <h3>Solicitações Agendadas</h3>
+            <p>50</p>
         </div>
-        <i class="fa-solid fa-circle-exclamation"></i>
+        <i class="fa-solid fa-calendar"></i>
     </div>
 
     <div class="box-info-single satisfacao">
         <div class="info-text">
-            <h3>Satisfação da População</h3>
-            <p>70%</p>
+            <h3>Nível de Satisfação</h3>
+            <p>92%</p>
         </div>
-        <i class="fa-solid fa-face-smile"></i>
+        <i class="fa-solid fa-star"></i>
     </div>
 </div>
 
 <div class="row row-grafico">
     <div class="grafico-donut">
-        <p class="titulo-graficos">Proporção dos Tipos de Solicitações</p>
+        <p class="titulo-graficos">Gravidade das Solicitações</p>
     </div>
 
     <div class="grafico-bar">
@@ -48,15 +48,14 @@
 <div class="row grafico-mapa">
     <div class="mapa-container">
         <div class="mapa-cidade w-100">
+            <p class="titulo-graficos">Solicitações por Bairro</p>
             <div id="mapa"></div>
             <div class="tooltip" id="tooltip"></div>
         </div>
 
         <div class="demais-info">
-            <!-- LEGENDA REMOVIDA AQUI -->
-
             <div class="categoria-solicitacao-bairro">
-                <p class="titulo-graficos">Categoria das Solicitações</p>
+                <p class="titulo-graficos">Categoria das Solicitações por Bairro</p>
                 <div class="grafico-barra-categoria"></div>
             </div>
         </div>
@@ -72,15 +71,16 @@
 {% block scripts %}
 <script text="type/javascript">
     $(document).ready(function(){
+        // Gráfico de Donut: Gravidade das Solicitações
         var options = {
           series: [44, 55, 14],
           chart: {
             type: 'donut',
             width: 450,
             height: 450,
-            legend: { show: false }
           },
-          colors: ['#FF5370', '#4099FF', '#1ec06f'],
+          labels: ['Alta', 'Média', 'Baixa'],
+          colors: ['#FF5370', '#FFC107', '#1ec06f'], 
           responsive: [{
             breakpoint: 480,
             options: {
@@ -91,19 +91,26 @@
         var chart = new ApexCharts(document.querySelector(".grafico-donut"), options);
         chart.render();
 
+        // Gráfico de Barras: Tipos de Solicitações no Ano
         var options = {
           series: [{
-            name: 'Tapar Buraco',
+            name: 'Pavimentação asfáltica',
             data: [44, 55, 41, 67, 22, 43, 0, 0, 0, 0, 0, 0]
           }, {
-            name: 'Recolocar Tampas em Bueiros',
+            name: 'Recapeamento',
             data: [13, 23, 20, 8, 13, 27, 0, 0, 0, 0, 0, 0]
           }, {
-            name: 'Recapiar Ruas',
+            name: 'Tapa Buraco',
             data: [11, 17, 15, 15, 21, 14, 0, 0, 0, 0, 0, 0]
           }, {
-            name: 'Outros',
+            name: 'Reposição de Tampa de Bueiro de Metal',
             data: [21, 7, 25, 13, 22, 8, 0, 0, 0, 0, 0, 0]
+          }, {
+            name: 'Reposição de Boca de Lobo',
+            data: [44, 55, 41, 67, 22, 43, 0, 0, 0, 0, 0, 0]
+          },{
+            name: 'Manutenção de Boca de Lobo',
+            data: [44, 55, 41, 67, 22, 43, 0, 0, 0, 0, 0, 0]
           }],
           chart: {
             type: 'bar',
@@ -129,6 +136,7 @@
         var chart = new ApexCharts(document.querySelector(".grafico-bar"), options);
         chart.render();
 
+        // Gráfico de Barras Categoria
         var options = {
           series: [{
             name: 'Solicitações',
