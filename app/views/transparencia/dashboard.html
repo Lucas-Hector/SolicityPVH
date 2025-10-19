@@ -1,6 +1,162 @@
 {% extends 'layouts/layout.html' %}
 
 {% block content %}
-    <h1>teste</h1>
-{% endblock content %}
+<div class="box-info">
+    <div class="box-info-single solucionados">
+        <div class="info-text">
+            <h3>Solicitações Atendidas</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-circle-check"></i>
+    </div>
 
+    <div class="box-info-single em-andamento">
+        <div class="info-text">
+            <h3>Solicitações em Andamento</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-road"></i>
+    </div>
+
+    <div class="box-info-single pendentes">
+        <div class="info-text">
+            <h3>Solicitações Pendentes</h3>
+            <p>150</p>
+        </div>
+        <i class="fa-solid fa-circle-exclamation"></i>
+    </div>
+
+    <div class="box-info-single satisfacao">
+        <div class="info-text">
+            <h3>Satisfação da População</h3>
+            <p>70%</p>
+        </div>
+        <i class="fa-solid fa-face-smile"></i>
+    </div>
+</div>
+
+<div class="row row-grafico">
+    <div class="grafico-donut">
+        <p class="titulo-graficos">Proporção dos Tipos de Solicitações</p>
+    </div>
+
+    <div class="grafico-bar">
+        <p class="titulo-graficos">Tipos de Solicitações no Ano</p>
+    </div>
+</div>
+
+<div class="row grafico-mapa">
+    <div class="mapa-container">
+        <div class="mapa-cidade w-100">
+            <div id="mapa"></div>
+            <div class="tooltip" id="tooltip"></div>
+        </div>
+
+        <div class="demais-info">
+            <!-- LEGENDA REMOVIDA AQUI -->
+
+            <div class="categoria-solicitacao-bairro">
+                <p class="titulo-graficos">Categoria das Solicitações</p>
+                <div class="grafico-barra-categoria"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="line">
+    <div class="grafico-mapa-cidade"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script text="type/javascript">
+    $(document).ready(function(){
+        var options = {
+          series: [44, 55, 14],
+          chart: {
+            type: 'donut',
+            width: 450,
+            height: 450,
+            legend: { show: false }
+          },
+          colors: ['#FF5370', '#4099FF', '#1ec06f'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: { width: 300, height: 300 }
+            }
+          }]
+        };
+        var chart = new ApexCharts(document.querySelector(".grafico-donut"), options);
+        chart.render();
+
+        var options = {
+          series: [{
+            name: 'Tapar Buraco',
+            data: [44, 55, 41, 67, 22, 43, 0, 0, 0, 0, 0, 0]
+          }, {
+            name: 'Recolocar Tampas em Bueiros',
+            data: [13, 23, 20, 8, 13, 27, 0, 0, 0, 0, 0, 0]
+          }, {
+            name: 'Recapiar Ruas',
+            data: [11, 17, 15, 15, 21, 14, 0, 0, 0, 0, 0, 0]
+          }, {
+            name: 'Outros',
+            data: [21, 7, 25, 13, 22, 8, 0, 0, 0, 0, 0, 0]
+          }],
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: { show: true },
+            zoom: { enabled: true }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 10,
+              dataLabels: { total: { enabled: true } }
+            },
+          },
+          xaxis: {
+            type: 'category',
+            categories: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+          },
+          legend: { position: 'right', offsetY: 40 },
+          fill: { opacity: 1 }
+        };
+        var chart = new ApexCharts(document.querySelector(".grafico-bar"), options);
+        chart.render();
+
+        var options = {
+          series: [{
+            name: 'Solicitações',
+            data: [10, 0, 2, 0, 0, 0]
+          }],
+          chart: { height: 500, type: 'bar' },
+          plotOptions: {
+            bar: {
+              borderRadius: 10,
+              dataLabels: { position: 'top' }
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: (val) => val,
+            offsetY: -20,
+            style: { fontSize: '12px', colors: ["#304758"] }
+          },
+          xaxis: {
+            categories: ["Tapa Buraco", "Pavimentação", "Repor Tampa de Bueiro", "Frestagem", "Sinalização Viária", "Terraplanagem"],
+            position: 'top',
+            axisBorder: { show: false },
+            axisTicks: { show: false }
+          },
+          yaxis: { labels: { show: false } }
+        };
+        var chart = new ApexCharts(document.querySelector(".grafico-barra-categoria"), options);
+        chart.render();
+    })
+</script>
+{% endblock %}

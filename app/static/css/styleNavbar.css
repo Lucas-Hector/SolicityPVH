@@ -7,7 +7,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 40px; 
+    padding: 1rem 6rem; 
 }
 
 .logo {
@@ -62,7 +62,7 @@ header {
 
 .login-button button:hover {
     transition: 0.2s;
-    background-color: #245fac;
+    background-color: #245fac;;
 }
 
 .login-button button a {
