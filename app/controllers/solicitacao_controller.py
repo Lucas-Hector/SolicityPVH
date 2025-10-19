@@ -6,7 +6,7 @@ class SolicitacaoController:
     def criar(self):
         return render_template('solicitacao/criar.html')
     
-    def minhas_solicitacoes(self):
+    def acompanhar(self):
         solicitacoes_db = [
             { 
                 "id": 1, "endereco": "Rua das Acácias, 123", "descricao": "Vários buracos perigosos na via.", 
