@@ -11,12 +11,12 @@ class SolicitacaoController:
             { 
                 "id": 1, "rua": "Avenida dos Pioneiros", "numero": "45", "bairro": "Centro", 
                 "descricao": "Boca de Lobo entortada e com rachaduras", "categoria": "Manutenção de Boca de Lobo", 
-                "status": "Em Análise", "data_agendamento": None, "data_finalizacao": None, "gravidade": "Baixa"
+                "status": "Concluída", "data_agendamento": "2025-10-18", "data_finalizacao": "2025-10-18", "gravidade": "Baixa"
             },
             { 
                 "id": 2, "rua": "Travessa dos Girassóis", "numero": "789", "bairro": "Vila Nova", 
                 "descricao": "Boca de Lobo aberta próxima à escola municipal", "categoria": "Reposição de Boca de Lobo", 
-                "status": "Concluída", "data_agendamento": "2025-10-20", "data_finalizacao": "2025-10-25", "gravidade": "Alta"
+                "status": "Em Análise", "data_agendamento": None, "data_finalizacao": "2025-10-25", "gravidade": "Alta"
             }
         ]
         

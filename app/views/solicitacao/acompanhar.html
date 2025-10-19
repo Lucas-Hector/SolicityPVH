@@ -30,7 +30,7 @@
                         <th>Gravidade</th>
                         <th>Status</th>
                         <th>Data Agendada</th>
-                        <th>Data de Conclusão</th> <!-- 🆕 -->
+                        <th>Data de Conclusão</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -97,9 +97,21 @@
                                data-data-agendada="{% if s.data_agendamento %}{{ s.data_agendamento.strftime('%d/%m/%Y') }}{% else %}Não agendada{% endif %}"
                                data-data-finalizacao="{% if s.data_finalizacao %}{{ s.data_finalizacao.strftime('%d/%m/%Y') }}{% else %}-{% endif %}"
                                data-descricao="{{ s.descricao if s.descricao else 'Sem descrição disponível.' }}"
-                               data-avaliacao="{{ s.avaliacao if s.avaliacao else '' }}"
-                               data-feedback="{{ s.feedback if s.feedback else '' }}"
-                               data-foto-url="{{ url_for('static', filename='img/boca_lobo.jpeg') }}">
+                               data-feedback="Muito bom"
+
+                               {% if s.id == 1 %}
+                                   {% if s.status == 'Concluída' %}
+                                       data-foto-url-before="{{ url_for('static', filename='img/boca_lobo1.jpeg') }}"
+                                       data-foto-url-after="{{ url_for('static', filename='img/boca_lobo1resolved.png') }}"
+                                   {% else %}
+                                       data-foto-url-before="{{ url_for('static', filename='img/boca_lobo1.jpeg') }}"
+                                   {% endif %}
+                               {% elif s.id == 2 %}
+                                   data-foto-url-before="{{ url_for('static', filename='img/boca_lobo2.jpeg') }}"
+                               {% else %}
+                                   data-foto-url-before="{{ url_for('static', filename='img/boca_lobo.jpeg') }}"
+                               {% endif %}
+                            >
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                         </td>
@@ -128,18 +140,31 @@
                     <p><strong>Status:</strong> <span id="modal-status"></span></p>
                     <p><strong>Data Agendada:</strong> <span id="modal-data-agendada"></span></p>
 
-                    <!-- 🆕 Campos que só aparecem se estiver Concluída -->
                     <div id="conclusao-section" style="display: none;">
                         <p><strong>Data de Conclusão:</strong> <span id="modal-data-finalizacao"></span></p>
-                        <p><strong>Avaliação:</strong> <span id="modal-avaliacao"></span></p>
                         <p><strong>Feedback:</strong> <span id="modal-feedback"></span></p>
                     </div>
 
-                    <p><strong>Descrição:</strong> <span id="modal-descricao">Descrição da solicitação aqui...</span></p>
+                    <p><strong>Descrição:</strong> <span id="modal-descricao"></span></p>
                 </div>
-                <div class="detalhes-foto">
-                    <h3>Foto da Solicitação</h3>
-                    <img id="modal-foto" src="{{ url_for('static', filename='img/boca_lobo.jpeg') }}" alt="Foto da Solicitação" style="max-width: 100%; height: auto; border-radius: 8px;">
+
+                <!-- 🔹 Fotos -->
+                <div class="detalhes-foto" id="foto-container">
+                    <div id="foto-single" style="text-align: center;">
+                        <h3>Foto da Solicitação</h3>
+                        <img id="modal-foto" src="" alt="Foto da Solicitação" class="foto-solicitacao">
+                    </div>
+
+                    <div id="foto-dupla" class="foto-dupla-container" style="display: none;">
+                        <div class="foto-bloco">
+                            <h4>Antes</h4>
+                            <img id="modal-foto-before" src="" alt="Foto Antes" class="foto-solicitacao">
+                        </div>
+                        <div class="foto-bloco">
+                            <h4>Depois</h4>
+                            <img id="modal-foto-after" src="" alt="Foto Depois" class="foto-solicitacao">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,15 +173,12 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- ✅ Dependências corretas -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 
 <script type="text/javascript">
 $(document).ready(function() {
-
-    // ✅ Inicializa o DataTable
     $('#tabela-solicitacoes').DataTable({
         language: { url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' },
         pageLength: 10,
@@ -166,7 +188,6 @@ $(document).ready(function() {
         info: true
     });
 
-    // ✅ Lógica do Modal
     var modal = $('#detalhesModal');
     var closeBtn = $('.close-btn');
 
@@ -174,7 +195,6 @@ $(document).ready(function() {
         e.preventDefault(); 
         var link = $(this);
 
-        // Preenche campos básicos
         $('#modal-protocolo').text(link.data('id'));
         $('#modal-categoria').text(link.data('categoria'));
         $('#modal-endereco').text(link.data('rua') + (link.data('numero') ? ', ' + link.data('numero') : ''));
@@ -183,16 +203,20 @@ $(document).ready(function() {
         $('#modal-status').text(link.data('status'));
         $('#modal-data-agendada').text(link.data('data-agendada'));
         $('#modal-descricao').text(link.data('descricao'));
-        $('#modal-foto').attr('src', link.data('foto-url'));
+        $('#modal-feedback').text(link.data('feedback'));
 
-        // Exibe ou oculta a seção de conclusão
         if (link.data('status') === 'Concluída') {
             $('#conclusao-section').show();
             $('#modal-data-finalizacao').text(link.data('data-finalizacao'));
-            $('#modal-avaliacao').text(link.data('avaliacao') || 'Não avaliada');
-            $('#modal-feedback').text(link.data('feedback') || 'Sem feedback');
+            $('#foto-single').hide();
+            $('#foto-dupla').show();
+            $('#modal-foto-before').attr('src', link.data('foto-url-before'));
+            $('#modal-foto-after').attr('src', link.data('foto-url-after'));
         } else {
             $('#conclusao-section').hide();
+            $('#foto-dupla').hide();
+            $('#foto-single').show();
+            $('#modal-foto').attr('src', link.data('foto-url-before'));
         }
 
         modal.css('display', 'block');

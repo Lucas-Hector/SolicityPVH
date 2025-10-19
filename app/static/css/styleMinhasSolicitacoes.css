@@ -275,3 +275,42 @@ a {
     font-weight: bold;
     display: inline-block;
 }
+
+
+/* === FOTOS ANTES E DEPOIS === */
+.foto-dupla-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.foto-bloco {
+    flex: 1 1 45%;
+    text-align: center;
+}
+
+.foto-bloco h4 {
+    margin-bottom: 10px;
+    color: #0b3c7b;
+}
+
+.foto-solicitacao {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+    .foto-dupla-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .foto-bloco {
+        width: 100%;
+    }
+}
