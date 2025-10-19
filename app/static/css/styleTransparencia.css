@@ -40,8 +40,8 @@
     background: linear-gradient(45deg, #4099FF, #73B4FF);
 }
 
-.pendentes {
-    background: linear-gradient(45deg, #FF5370, #ff869a);
+.agendadas {
+    background: linear-gradient(45deg, #9e1db4, #cd09f0);
 }
 
 .satisfacao {

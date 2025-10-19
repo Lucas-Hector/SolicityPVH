@@ -67,6 +67,27 @@
         {% endblock content %}
     </div>
 
+    <div id="ze-chatbot-container">
+        <div id="ze-chatbot-header">
+            <img id="ze-avatar" src="../static/img/ze_avatar.png" alt="Zé da Obra">
+            <div id="ze-info">
+                <p class="ze-saudacao">Olá! Eu sou o Zé da Obra!</p>
+                <p class="ze-status" data-status="initial">Clique para começar o chat.</p>
+            </div>
+            <button id="close-chat-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div id="ze-chat-window" style="display: none;">
+            <div id="ze-chat-messages">
+                </div>
+            
+            <div id="ze-chat-input-area">
+                <input type="text" id="ze-user-input" placeholder="Digite seu CPF...">
+                <button id="ze-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="content-footer">
             © 2025 Copyright: FourSource
@@ -102,6 +123,262 @@
                 }
 
             })
+        })
+
+
+
+        // =======================================================
+        //              JAVASCRIPT (Menu e Chatbot IA)
+        // =======================================================
+
+        const CHAT_ENDPOINT = 'http://localhost:3000/api/chat-ia'; 
+        let isCpfValid = false;
+        let userCpf = null;
+
+        // NOVAS MENSAGENS
+        const INITIAL_MESSAGE = "Bem-vindo! Eu sou o Zé. Solicity e tenha solução na palma da mão.";
+        const CPF_PROMPT_MESSAGE = "Para começar, digite seu CPF.";
+
+        const MESSAGES_CONTAINER = document.getElementById('ze-chat-messages');
+        const CHAT_INPUT_AREA = document.getElementById('ze-chat-input-area');
+        const SEND_BUTTON = document.getElementById('ze-send-btn');
+        const USER_INPUT = document.getElementById('ze-user-input');
+
+        // FUNÇÃO DE VALIDAÇÃO DE CPF BEM SIMPLES
+        function isValidCpf(cpf) {
+            cpf = cpf.replace(/[^\d]/g, '');
+            if (cpf.length !== 11) return false;
+            if (/^(\d)\1{10}$/.test(cpf)) return false; 
+            return true;
+        }
+
+        // =======================================================
+        // EFEITO DE DIGITAÇÃO SEQUENCIAL
+        // =======================================================
+        function typeMessage(messageText) {
+            return new Promise(resolve => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', 'bot-message');
+                MESSAGES_CONTAINER.appendChild(messageDiv);
+                MESSAGES_CONTAINER.scrollTop = MESSAGES_CONTAINER.scrollHeight;
+
+                let charIndex = 0;
+                const typingInterval = setInterval(() => {
+                    if (charIndex < messageText.length) {
+                        messageDiv.textContent += messageText.charAt(charIndex);
+                        charIndex++;
+                        MESSAGES_CONTAINER.scrollTop = MESSAGES_CONTAINER.scrollHeight;
+                    } else {
+                        clearInterval(typingInterval);
+                        resolve();
+                    }
+                }, 40); // Velocidade da digitação (40ms)
+            });
+        }
+
+
+        // =======================================================
+        // FLUXO INICIAL (Ordem corrigida)
+        // =======================================================
+        async function initiateCpfPrompt() {
+            // 1. Saudação com efeito de digitação
+            await typeMessage(INITIAL_MESSAGE);
+
+            // 2. Mensagem do CPF logo em seguida, também com efeito de digitação
+            await typeMessage(CPF_PROMPT_MESSAGE);
+            
+            // 3. Muda o placeholder e foca no input
+            USER_INPUT.placeholder = 'Digite seu CPF (apenas números)';
+            USER_INPUT.focus();
+        }
+
+        // FUNÇÃO DE SUBMISSÃO DO CPF (usando o input principal)
+        async function handleCpfSubmission() {
+            const cpf = USER_INPUT.value.trim();
+            
+            // 1. Mostrar o CPF do usuário
+            addMessageToChat(cpf, 'user');
+            USER_INPUT.value = ''; // Limpa o campo
+            
+            // 2. Validação do CPF
+            if (isValidCpf(cpf)) {
+                userCpf = cpf;
+                isCpfValid = true;
+                
+                // Transição para o modo de conversa
+                USER_INPUT.placeholder = 'Digite sua mensagem...';
+                
+                // Mensagem de sucesso (opcional, pode remover se preferir)
+                addMessageToChat("Obrigado! Seu protocolo de segurança foi registrado. Agora, como posso te ajudar hoje?", 'bot');
+
+                USER_INPUT.focus(); // Foca para o usuário iniciar a conversa
+
+            } else {
+                // Mensagem de erro e volta a pedir CPF
+                const errorMessage = "CPF inválido. Por favor, digite um CPF válido de 11 dígitos (apenas números).";
+                addMessageToChat(errorMessage, 'bot');
+                
+                USER_INPUT.focus(); // Deixa o cursor no campo
+            }
+        }
+
+
+        // Função para manipular o estado visual (abrir/fechar)
+        function toggleChatWindow(forceClose = false) {
+            const container = document.getElementById('ze-chatbot-container');
+            const chatWindow = document.getElementById('ze-chat-window');
+            const closeBtn = document.getElementById('close-chat-btn');
+            const statusText = document.querySelector('#ze-info .ze-status');
+            const isOpened = container.classList.contains('chat-aberto');
+
+            if (isOpened || forceClose) {
+                // Lógica para Fechar
+                container.classList.remove('chat-aberto');
+                chatWindow.style.display = 'none';
+                closeBtn.style.display = 'none';
+                statusText.textContent = 'Clique para começar o chat.';
+                statusText.setAttribute('data-status', 'closed');
+            } else {
+                // Lógica para Abrir
+                container.classList.add('chat-aberto');
+                chatWindow.style.display = 'flex';
+                closeBtn.style.display = 'block';
+                statusText.textContent = 'Online e pronto para ajudar!';
+                statusText.setAttribute('data-status', 'online');
+                
+                // Inicia o fluxo de CPF/Boas-vindas se não for válido ainda
+                if (!isCpfValid) {
+                    MESSAGES_CONTAINER.innerHTML = ''; // Limpa mensagens anteriores
+                    initiateCpfPrompt(); // Chama o novo fluxo de boas-vindas + CPF
+                } else {
+                    // Se o CPF já foi validado, apenas foca no input
+                    USER_INPUT.focus();
+                }
+            }
+        }
+
+        // Função para adicionar uma nova mensagem ao DOM
+        function addMessageToChat(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            
+            if (sender === 'user') {
+                messageDiv.classList.add('user-message');
+            } else {
+                messageDiv.classList.add('bot-message');
+            }
+            
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>'); 
+            MESSAGES_CONTAINER.appendChild(messageDiv);
+            MESSAGES_CONTAINER.scrollTop = MESSAGES_CONTAINER.scrollHeight;
+        }
+
+        // Função principal de envio e comunicação com a IA
+        async function sendMessage() {
+            // Se o CPF ainda não foi validado, trata o envio como a submissão do CPF
+            if (!isCpfValid) {
+                handleCpfSubmission();
+                return;
+            }
+
+            // Se o CPF já foi validado, prossegue com o chat normal
+            const userMessage = USER_INPUT.value.trim();
+
+            if (!userMessage) return; 
+
+            // O restante do código de envio permanece inalterado:
+            addMessageToChat(userMessage, 'user');
+            USER_INPUT.value = ''; 
+            
+            SEND_BUTTON.disabled = true;
+            SEND_BUTTON.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; 
+            const statusText = document.querySelector('#ze-info .ze-status');
+            statusText.textContent = 'Digitando...';
+
+            // Adiciona o CPF (apenas para log/identificação) no início da mensagem enviada à IA
+            const fullMessage = `[CPF: ${userCpf}] - ${userMessage}`;
+            
+            try {
+                const response = await fetch(CHAT_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: fullMessage }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro do servidor: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                const botResponse = data.reply || "O Zé está com problemas internos. Tente novamente mais tarde.";
+                addMessageToChat(botResponse, 'bot');
+
+            } catch (error) {
+                console.error("Erro ao comunicar com a IA:", error);
+                addMessageToChat("O Zé está com problemas de conexão. Tente novamente mais tarde.", 'bot');
+            } finally {
+                SEND_BUTTON.disabled = false;
+                SEND_BUTTON.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+                statusText.textContent = 'Online e pronto para ajudar!';
+                USER_INPUT.focus();
+            }
+        }
+
+
+        $(document).ready(function(){
+            // --- CÓDIGO ORIGINAL DO MENU DE NAVEGAÇÃO ---
+            $('.nav-item').click(function() {
+                $('.nav-item').removeClass('active-link');
+                $(this).addClass('active-link');
+            });
+
+            $('.btn-menu').click(function(){
+                let menuMobile = $('.mobile-menu')
+                if (menuMobile.hasClass('open')){
+                    menuMobile.removeClass('open')
+                    $('.icon').removeClass("fa-xmark")
+                    $('.icon').addClass("fa-bars")
+                } else {
+                    menuMobile.addClass('open')
+                    $('.icon').removeClass("fa-bars")
+                    $('.icon').addClass("fa-xmark")
+                }
+            })
+            // --- FIM CÓDIGO ORIGINAL DO MENU ---
+
+            // --- INICIALIZAÇÃO E EVENTOS DO ZÉ DA OBRA ---
+            
+            // 1. Vincular o toggle (abrir) ao clique no header
+            $('#ze-chatbot-header').on('click', function(e) {
+                if (e.target.closest('#close-chat-btn')) {
+                    return; 
+                }
+                toggleChatWindow(false);
+            });
+            
+            // 2. Vincular o fechamento ao botão X
+            document.getElementById('close-chat-btn').addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                toggleChatWindow(true);
+            });
+
+            // 3. Vincular o envio ao clique do botão (AGORA CHAMA sendMessage, que decide se é CPF ou Chat)
+            SEND_BUTTON.addEventListener('click', sendMessage);
+
+            // 4. Vincular o envio à tecla Enter
+            USER_INPUT.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); 
+                    sendMessage();
+                }
+            });
+
+            // 5. Fechar o chat por padrão ao carregar a página
+            toggleChatWindow(true);
+            // --- FIM EVENTOS DO ZÉ DA OBRA ---
         })
     </script>
 
