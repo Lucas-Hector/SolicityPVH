@@ -1,0 +1,89 @@
+
+
+.cards-container {
+    display: flex;
+    justify-content: space-around; /* Espaça os cards */
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+    gap: 25px; /* Espaço entre os cards */
+    margin-top: 30px; /* Espaço abaixo do título principal */
+    padding: 10px 0;
+}
+
+.card {
+    background-color: #ffffff;
+
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 25px;
+    text-align: center;
+    flex: 1 1 280px; /* Flex: cresce, encolhe, base de 280px */
+    max-width: 320px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-top: 4px solid #0b3c7b; /* Detalhe azul no topo */
+    display: flex; /* Adicionado para alinhar o conteúdo interno */
+    flex-direction: column; /* Empilha título, parágrafo, botão */
+    justify-content: space-between; /* Tenta espaçar o conteúdo verticalmente */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.card h2 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee; /* Linha mais sutil que o H1 geral */
+    padding-bottom: 10px;
+    color: #0b3c7b;
+    /* Garante que a borda dourada do H1/H2 geral não apareça aqui */
+    border-bottom-color: #eee;
+}
+
+.card p {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Faz o parágrafo tentar ocupar espaço se houver */
+}
+
+/* Estilo para links/botões DENTRO dos cards */
+.card a.btn-card {
+     display: inline-block;
+     padding: 12px 25px;
+     background-color: #0b3c7b;
+     color: white;
+     text-decoration: none;
+     border-radius: 5px;
+     font-weight: bold;
+     transition: background-color 0.3s ease;
+     margin-top: auto; /* Empurra o botão para baixo se houver espaço */
+}
+.card a.btn-card:hover {
+     background-color: #082f5a;
+}
+
+
+.content-wrapper h1{ 
+    color: #0b3c7b;
+    border-bottom: 3px solid #dacf3a;
+    padding-bottom: 10px;
+    margin-top: 0px; 
+    align-items: center;
+    text-align: center;
+}
+
+.phome{
+    text-align: center;
+    font-size: 18px;
+    color: #333333;
+}
+
+img { max-width: 100%; height: auto; }
+
+/* --- RESPONSIVIDADE (A MÁGICA PARA CELULARES) --- */
+@media (max-width: 768px) {
+    body { margin: 0; }
+    .container { width: 100%; margin: 0; border-radius: 0; box-shadow: none; padding: 15px; }
+    .header { padding: 10px 15px; }
+    .header img { height: 40px; }}
