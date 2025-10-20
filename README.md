@@ -56,14 +56,6 @@ Essa estrutura garante **organização, escalabilidade e facilidade de manutenç
 
 ## ⚙️ **Como Executar o Projeto Localmente**
 
-Siga os passos abaixo para rodar o projeto em sua máquina:  
-
-### 🧾 **Pré-requisitos**
-- Python 3.10+  
-- pip instalado  
-
-## ⚙️ **Como Executar o Projeto Localmente**
-
 Siga os passos abaixo para rodar o projeto em sua máquina:
 
 ### 🧾 Pré-requisitos
