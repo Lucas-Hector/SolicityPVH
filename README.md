@@ -108,4 +108,6 @@ Esta versão é uma **protótipo** sem banco de dados e autenticação de usuár
 * Kemily Freitas
 * Letícia Vitória
 * Samia Dorado
+* Hectar
+  
 
